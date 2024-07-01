@@ -3,30 +3,22 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Radio from "@mui/material/Radio";
-import Box from "@mui/material/Box";
 import RadioGroup from "@mui/material/RadioGroup";
 import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import { List, ListItem } from "@mui/material";
-import Select from "@mui/material/Select";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
-import FormGroup from "@mui/material/FormGroup";
 import { Form } from "react-bootstrap";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import Profile from "./Profile";
-import Error from "../Mycomponent/Error";
-import ErrorMessage from "../Mycomponent/ErrorMessage";
+import Error from "../Component/Error";
+import ErrorMessage from "../Component/ErrorMessage";
 
 function Copyright(props) {
   return (
@@ -113,7 +105,6 @@ export default function Profilereg() {
       age_now--;
     }
     setage(age_now);
-    console.log(age_now);
     return age_now;
   };
   console.log(userDetails);
@@ -132,8 +123,6 @@ export default function Profilereg() {
     ) {
       let data1 = new FormData();
       data1.append("image", photo[0]);
-      console.log(1);
-      console.log(data1);
       const res1 = await axios.post(
         "http://localhost:5000/api/forms/roommateimageupload",
         data1

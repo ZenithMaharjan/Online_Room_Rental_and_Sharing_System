@@ -1,7 +1,4 @@
 import { React, useState } from "react";
-import Subhead from "../Mycomponent/Subhead";
-import Mysearch from "../Mycomponent/Mysearch";
-import Addpost from "../Mycomponent/Addpost";
 import roomie from "/src/images/roomie.jpg";
 import rent1 from "/src/images/rent1.jpg";
 import flat from "/src/images/flats.png";

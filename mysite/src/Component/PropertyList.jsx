@@ -1,23 +1,26 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import Roommates from "../Mycomponent/Roommate";
+import Property from "./Property";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 const SeachContainer = styled.div`
   position: absolute;
-  top: 24%;
+  top: 21.5%;
   left: 50%;
   width: 350px;
   height: 40px;
+  margin-bottom: 30px;
   border-radius: 40px;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   transform: translate(-50%, -50%);
   background: #fff;
   transition: all 0.3s ease;
   border: 1px solid lightgray;
+  &:focus {
+    border: 3px solid #555;
+  }
 `;
 
 const Searches = styled.input`
@@ -36,11 +39,11 @@ const Searches = styled.input`
 
 const FilterContainer = styled.div`
   margin-top: 44px;
-  margin-left: 100px;
-  margin-right: 100px;
   display: flex;
   justify-content: space-between;
+  padding-top: 20px;
 `;
+
 const Filter = styled.div`
   margin: 20px;
 `;
@@ -57,18 +60,25 @@ const Select = styled.select`
 `;
 const Option = styled.option``;
 
-export default function Roommate() {
-  const user = useSelector((state) => state.user.currentUser);
+const PropertyList = () => {
+  const location = useLocation();
+  const cat = location.pathname.split("/")[2];
 
-  const [original, setoriginal] = useState([]);
-  const [roommate, setroommate] = useState([]);
-  const [filteredRoommate, setfilteredRoommate] = useState([]);
-  const cat = "hostel";
-  const [filters, setFilters] = useState({});
-  const [sort, setSort] = useState("newest");
+  const [properties, setproperties] = useState([]);
+  const [filteredProperty, setFilteredProperty] = useState([]);
+
   const [query, setQuery] = useState("");
 
-  const keys = ["province", "district"];
+  const [filters, setFilters] = useState({});
+  const [sort, setSort] = useState("newest");
+
+  const keys = ["province", "district", "municipalityorvdc"];
+
+  const Search = (data) => {
+    return data.filter((item) =>
+      keys.some((key) => item[key].toLowerCase().includes(query))
+    );
+  };
 
   const handleFilters = (e) => {
     const value = e.target.value;
@@ -78,105 +88,42 @@ export default function Roommate() {
     });
   };
 
-  const Search = (data) => {
-    return data.filter((item) =>
-      keys.some((key) => item[key].toLowerCase().includes(query))
-    );
-  };
-
   useEffect(() => {
-    const getRoommate = async () => {
+    const getProperty = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/forms");
-        setoriginal(res.data);
-      } catch (err) {
-        console.log(err);
-      }
+        const res = await axios.get(
+          cat
+            ? `http://localhost:5000/api/properties?category=${cat}`
+            : "http://localhost:5000/api/properties"
+        );
+        setproperties(res.data);
+      } catch (err) {}
     };
-    getRoommate();
-  }, [cat]);
-
-  useEffect(() => {
-    const Roommatematcher = () => {
-      original.map((item) => {
-        let profile = [];
-
-        if (user.gender === item.pgender.toLowerCase()) {
-          profile.push(user.gender);
-        }
-
-        if (item.minage <= user.age && user.age <= item.maxage) {
-          profile.push(user.age);
-        }
-
-        if (user.alcoholic.toLowerCase() === item.palcoholic.toLowerCase()) {
-          profile.push(user.alcoholic);
-        }
-
-        if (user.ebno.toLowerCase() === item.pebno.toLowerCase()) {
-          profile.push(user.ebno);
-        }
-
-        if (user.married.toLowerCase() === item.pmarried.toLowerCase()) {
-          profile.push(user.married);
-        }
-
-        if (user.partying.toLowerCase() === item.ppartying.toLowerCase()) {
-          profile.push(user.partying);
-        }
-
-        if (user.occupation.toLowerCase() === item.poccupation.toLowerCase()) {
-          profile.push(user.occupation);
-        }
-
-        if (user.pets.toLowerCase() === item.ppets.toLowerCase()) {
-          profile.push(user.pets);
-        }
-
-        if (user.smoker.toLowerCase() === item.psmoker.toLowerCase()) {
-          profile.push(user.smoker);
-        }
-
-        if (user.veg.toLowerCase() === item.pveg.toLowerCase()) {
-          profile.push(user.veg);
-        }
-        console.log(profile);
-        if (profile.length > 5) {
-          setroommate((oldArray) => [...oldArray, item]);
-          console.log(roommate);
-        }
-      });
-    };
-    if (user && user.firstname != undefined) {
-      console.log("enter");
-      Roommatematcher();
-    } else {
-      setroommate(original);
-    }
-  }, [cat, original]);
+    getProperty();
+  }, []);
 
   useEffect(() => {
     cat &&
-      setfilteredRoommate(
-        roommate.filter((item) =>
+      setFilteredProperty(
+        properties.filter((item) =>
           Object.entries(filters).every(([key, value]) =>
             item[key].includes(value)
           )
         )
       );
-  }, [roommate, cat, filters]);
+  }, [properties, cat, filters]);
 
   useEffect(() => {
     if (sort === "newest") {
-      setfilteredRoommate((prev) =>
+      setFilteredProperty((prev) =>
         [...prev].sort((a, b) => a.createdAt - b.createdAt)
       );
     } else if (sort === "asc") {
-      setfilteredRoommate((prev) =>
+      setFilteredProperty((prev) =>
         [...prev].sort((a, b) => a.price - b.price)
       );
     } else {
-      setfilteredRoommate((prev) =>
+      setFilteredProperty((prev) =>
         [...prev].sort((a, b) => b.price - a.price)
       );
     }
@@ -191,23 +138,6 @@ export default function Roommate() {
 
   return (
     <div>
-      <div
-        className=" d-flex  justify-content-end"
-        style={{
-          backgroundColor: "#c5e0e5",
-          height: "55px",
-          alignItems: "center",
-        }}
-      >
-        <Link to="/postforroommate">
-          {" "}
-          <button type="button" className="btn btn-success me-3 ">
-            {" "}
-            Add Room
-          </button>
-        </Link>
-      </div>
-
       <SeachContainer>
         <Searches
           placeholder="Search..."
@@ -217,8 +147,17 @@ export default function Roommate() {
 
       <FilterContainer>
         <Filter>
-          <FilterText>Filter :</FilterText>
-
+          <FilterText>Filter {cat}:</FilterText>
+          <Select name="province" onChange={handleFilters}>
+            <Option disabled>Province</Option>
+            <Option>Province 1</Option>
+            <Option>Madesh</Option>
+            <Option>Bagmati</Option>
+            <Option>Gandaki</Option>
+            <Option>Lumbini</Option>
+            <Option>Karnali</Option>
+            <Option>Sudurpaschim</Option>
+          </Select>
           <Select name="district" onChange={handleFilters}>
             <Option disabled>Province 1</Option>
             <Option>Bhojpur</Option>
@@ -313,14 +252,9 @@ export default function Roommate() {
             <Option>Kailali</Option>
             <Option>Kanchanpur</Option>
           </Select>
-          <Select name="pgender" onChange={handleFilters}>
-            <Option disabled>Gender</Option>
-            <Option>Male</Option>
-            <Option>Female</Option>
-          </Select>
         </Filter>
         <Filter>
-          <FilterText>Sort :</FilterText>
+          <FilterText>Sort {cat}:</FilterText>
           <Select onChange={(e) => setSort(e.target.value)}>
             <Option value="newest">Newest</Option>
             <Option value="asc">Price (asc)</Option>
@@ -328,42 +262,13 @@ export default function Roommate() {
           </Select>
         </Filter>
       </FilterContainer>
-      <div className="container">
-        <div>
-          <p
-            style={{
-              fontSize: "50px",
-              lineHeight: "60px",
-              fontFamily: "sans-serif",
-              display: "flex",
-            }}
-          >
-            {" "}
-            Looking For A
-            <p style={{ color: "green", display: "flex", whiteSpace: "pre" }}>
-              {" "}
-              Compatible Roommates{" "}
-            </p>
-          </p>
-          <p style={{ fontSize: "20px", display: "flex" }}>
-            {" "}
-            Find like minded Roommates to share comfortable space.
-          </p>
-          <Link to="/postforroommate">
-            {" "}
-            <button type="button-lg" className="btn mb-3 btn-success abc">
-              Post For Roommates
-            </button>
-          </Link>
-        </div>
-        <div className="row">
-          <div style={styles}>
-            {Search(filteredRoommate).map((item) => (
-              <Roommates item={item} key={item.id} />
-            ))}
-          </div>
-        </div>
+      <div style={styles}>
+        {Search(filteredProperty).map((item) => (
+          <Property item={item} key={item.id} />
+        ))}
       </div>
     </div>
   );
-}
+};
+
+export default PropertyList;

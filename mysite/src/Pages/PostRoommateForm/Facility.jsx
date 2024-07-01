@@ -5,12 +5,6 @@ import TextField from "@mui/material/TextField";
 import Input from "@mui/material/Input";
 
 import Checkbox from "@mui/material/Checkbox";
-import { MenuItem } from "@mui/material";
-import Radio from "@mui/material/Radio";
-import FormGroup from "@mui/material/FormGroup";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
 import { useState } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 

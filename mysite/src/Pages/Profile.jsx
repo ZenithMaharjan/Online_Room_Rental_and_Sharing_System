@@ -1,12 +1,10 @@
 import React from "react";
 import { Link, Navigate } from "react-router-dom";
-import man2 from "/src/images/about.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
   faMapMarkerAlt,
   faEnvelope,
-  faRupeeSign,
   faUser,
   faBuildingCircleArrowRight,
   faHeartCircleCheck,
@@ -34,7 +32,6 @@ export default function Profile() {
     };
     getuser();
   }, []);
-  console.log(user);
   let ebno;
   user?.ebno === "yes" ? (ebno = "Early Bird") : (ebno = "Nightowl");
 
@@ -53,11 +50,7 @@ export default function Profile() {
           {check && user.firstname == undefined && (
             <Navigate to="/profilereg" />
           )}
-          {/* {user?.firstname ? 
-          <></>
-          :
-          <button className="btn btn-primary  mb-1 " onClick={handleclick}> Add Profile Details</button>
-        } */}
+
           <button
             className="navbar-toggler"
             type="button"
@@ -122,103 +115,7 @@ export default function Profile() {
           </div>
         </div>
       </nav>
-      {/* <div className='container mb-3 mt-2'>
-        <div className='row'>
-            <div className='col-lg-4'>
-            <div className="col-md-7 mt-1 mx-3">
-                        <img src={`uploads/${user?.photo}`} className="img-fluid rounded-start" alt="..."  style={{height:'200px'}}/>
-                        </div>
-            </div>
-            <div className='col-lg-8'>
-                <div className='row' style={{border:' solid #ccc ',  padding:'1px ', borderRadius:'10px',height:'200px',lineHeight:'35px'}}>
-                <div  className=' col-lg-6 mt-2 mb-3 ' >
-            <FontAwesomeIcon style={{marginLeft:'3em'}} icon={faUser} /><span style={{fontSize:'18px',marginLeft:'10px'}}>{user?.firstname} {user?.lastname}</span><br/>
-                         <FontAwesomeIcon style={{marginLeft:'3em'}} icon={faEnvelope} /><span style={{fontSize:'18px',marginLeft:'10px'}}>{user?.email}</span><br/>
-                         <FontAwesomeIcon  style={{marginLeft:'3em'}} icon={faMapMarkerAlt} /> <span style={{fontSize:'20px',marginLeft:'10px'}}> {user?.district}</span> <br/>
-                     
 
-                        <FontAwesomeIcon className='mb-2' style={{marginLeft:'3em'}} icon={faPhone} /><span style={{fontSize:'20px',marginLeft:'10px'}}>{user?.phoneno} </span> <br/>
-                     </div> 
-                    <div className='col-lg-4  mt-2 mb-3' style={{fontSize:'18px'}}>
-                            Gender: {user?.gender} <br></br>
-                            Age: {user?.age} yrs <br></br>
-                            Occupation: {user?.occupation}
-                    </div>
-                </div>
-
-          
-
-            </div>
-        </div>
-
-      </div>
-        <div className='container'>
-            <div className='row'>
-            <div className='col-lg-6'>
-                <h5 className='mt-5'>About me</h5>
-                <div className='row' style={{lineHeight:'35px'}}>
-
-                <div className='col-lg-5 mb-3'>
-              Name <br/>
-              Gender <br/>
-              Age <br/>
-              Occupation<br/>
-              Smoker?<br/>
-              Any pets?<br/>
-              Early bird/Night Owl?<br/>
-              Partying<br/>
-              Alcoholic<br/>
-              Married<br/>
-              Veg<br/>
-
-            </div>
-            <div className='col-lg-5'>
-            {user?.firstname} {user?.lastname}  <br/>
-            {user?.gender} <br/>
-            {user?.age}  yrs <br/>
-            {user?.occupation}  <br/>
-            {user?.smoker}  <br/>
-            {user?.pets}  <br/>
-             {ebno}<br/>
-            {user?.partying}  <br/>
-            {user?.alcoholic} <br/>
-            {user?.married} <br/>
-            {user?.veg} <br/>
-            </div>
-            
-            
-        
-           
-            </div>
-            </div>
-            </div>
-   
-            </div> */}
-
-      {/* <section className='mb-3'>
-        <div className='row'>
-         
-          <div className='mx-5 mt-2  mb-2  shadow' style={{border:'solid #ccc',padding:'10px', borderRadius:'5px', width:'200px'}}> 
-          <Link to='/Myproperty'>
-          <FontAwesomeIcon icon={faBuildingCircleArrowRight} style={{fontSize:'50px',color:'indigo'}} />
-          </Link>
-        <span style={{marginLeft:'22px',fontSize:'30px'}}>5</span><br/>
-          My Properties
-          </div>
-      
-         
-          <div className='mx-5 mt-2  mb-2  shadow' style={{border:'solid #ccc',padding:'10px', borderRadius:'5px', width:'200px'}}> 
-          <Link to='/Mywishlist'>
-
-          <FontAwesomeIcon icon={faHeartCircleCheck} style={{fontSize:'50px',color:'red'}} />
-          </Link> 
-          <span style={{marginLeft:'22px',fontSize:'30px'}}>3</span><br/>
-
-          My favourite
-          </div>
-
-        </div>
-      </section> */}
       <section
         style={{
           borderBottom: "25px solid aliceblue",

@@ -5,19 +5,13 @@ import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Radio from "@mui/material/Radio";
-import Box from "@mui/material/Box";
 import RadioGroup from "@mui/material/RadioGroup";
 import Input from "@mui/material/Input";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import { List, ListItem } from "@mui/material";
-import Select from "@mui/material/Select";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
 import FormGroup from "@mui/material/FormGroup";
 import { Form } from "react-bootstrap";
@@ -113,22 +107,18 @@ export default function Hostelform() {
     passportphoto,
     citizenship,
   };
-  console.log(formdetails);
+
   const handleform = async (event) => {
     event.preventDefault();
     try {
       let data1 = new FormData();
       data1.append("image", passportphoto[0]);
-      console.log(1);
-      console.log(data1);
       const res1 = await axios.post(
         "http://localhost:5000/api/forms/imageupload",
         data1
       );
       const image1 = res1.data;
       formdetails.passportphoto = image1;
-      console.log(image1);
-      console.log(2);
 
       let data2 = new FormData();
       data2.append("image", citizenship[0]);
@@ -140,9 +130,6 @@ export default function Hostelform() {
       );
       const image2 = res2.data;
       formdetails.citizenship = image2;
-      console.log(image2);
-
-      console.log(3);
 
       const result = await axios.post(
         "http://localhost:5000/api/forms/addform",

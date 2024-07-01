@@ -9,7 +9,6 @@ const crypto = require("crypto");
 
 //REGISTER
 router.post("/register", async (req, res) => {
-  console.log(2);
   const newuser = new User(req.body);
   newuser.password = CryptoJS.AES.encrypt(
     req.body.password,
@@ -17,18 +16,14 @@ router.post("/register", async (req, res) => {
   ).toString();
 
   try {
-    console.log(3);
     const user = await newuser.save();
-    console.log(3.3);
     const token = await new Token({
       userId: user._id,
       token: crypto.randomBytes(32).toString("hex"),
     }).save();
-    console.log(4);
     const url = `${process.env.BASE_URL}users/${user.id}/verify/${token.token}`;
     await sendEmail(user.email, "Verify Email", url);
 
-    console.log(user);
     res.status(201).json(user);
   } catch (error) {
     return res.status(500).json(error);
@@ -77,7 +72,6 @@ router.post("/login", async (req, res) => {
     const { password, ...others } = user._doc;
     res.status(200).json({ ...others, accessToken });
   } catch (error) {
-    console.log("b");
     return res.status(500).json({ error });
   }
 });

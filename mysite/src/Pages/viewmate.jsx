@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPhone,
@@ -33,10 +32,7 @@ export default function viewmates() {
     getroommate();
   }, []);
 
-  console.log(roommate);
   let room = roommate?.roomphoto;
-  console.log(room);
-  // console.log(room[0])
   return (
     <div style={{ backgroundColor: "aliceblue" }}>
       <div className="container ">
@@ -47,7 +43,6 @@ export default function viewmates() {
         <div className="row">
           <div className="col-lg-3">
             <div className="col-md-4 mt-3 mx-3">
-              {/* <img src="img_avatar.png" className="img-fluid rounded-start" alt="..." /> */}
               <img
                 style={{ objectFit: "contain" }}
                 src={`/uploads/${roommate.photo}`}
@@ -130,7 +125,6 @@ export default function viewmates() {
                 <MDBCarouselItem
                   className="w-100 d-block  "
                   itemId={1}
-                  // src='https://mdbootstrap.com/img/Photos/Slides/img%20(15).jpg'
                   src={
                     room != undefined
                       ? `/uploads/${roommate?.roomphoto[0]}`
@@ -143,7 +137,6 @@ export default function viewmates() {
                 <MDBCarouselItem
                   className="w-100 d-block"
                   itemId={2}
-                  // src='https://mdbootstrap.com/img/Photos/Slides/img%20(22).jpg'
                   src={
                     room != undefined
                       ? `/uploads/${roommate?.roomphoto[1]}`
@@ -155,7 +148,6 @@ export default function viewmates() {
                 <MDBCarouselItem
                   className="w-100 d-block"
                   itemId={3}
-                  // src='https://mdbootstrap.com/img/Photos/Slides/img%20(23).jpg'
                   src={
                     room != undefined
                       ? `/uploads/${roommate?.roomphoto[2]}`
@@ -234,7 +226,6 @@ export default function viewmates() {
                   Name <br />
                   Gender <br />
                   Age <br />
-                  {/* Occupation<br/> */}
                   Smoker?
                   <br />
                   Any pets?
@@ -256,9 +247,7 @@ export default function viewmates() {
                   {roommate.gender?.slice(0, 1).toUpperCase() +
                     roommate.gender?.slice(1, roommate.gender?.length)}
                   <br />
-                  {/* {roommate.gender}<br/> */}
                   {roommate.age} yrs <br />
-                  {/* {roommate.occupation} <br/> */}
                   No <br />
                   No <br />
                   Night Owl

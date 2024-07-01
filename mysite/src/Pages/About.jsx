@@ -1,5 +1,4 @@
 import React from "react";
-import img3 from "/src/images/img3.jpg";
 import man from "/src/images/man.png";
 import about from "/src/images/about.jpg";
 import about3 from "/src/images/about3.jpg";

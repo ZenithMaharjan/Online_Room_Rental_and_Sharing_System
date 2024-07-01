@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import { ArrowLeftOutlined, ArrowRightOutlined } from "@mui/icons-material";
 import { useState } from "react";
-import { sliderItems } from "../data";
-import "./BookingDetails.css";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -71,7 +69,6 @@ const ImgContainer = styled.div`
 
 const Image = styled.img`
   height: 80%;
-  /* width: 97%; */
 `;
 
 const InfoContainer = styled.div`
@@ -107,7 +104,6 @@ const BookingDetails = () => {
         );
         setProperty(res.data);
         const book = res.data.currentbookings;
-        console.log(book);
         setBooking(book);
       } catch {}
     };
@@ -125,11 +121,9 @@ const BookingDetails = () => {
       };
       getData();
     });
-    console.log(bookedusers);
   }, [booking]);
 
   useEffect(() => {
-    console.log(bookedusers);
     setDisplay(true);
   }, [bookedusers]);
 
@@ -145,7 +139,6 @@ const BookingDetails = () => {
   };
 
   const CheckProfile = (item) => {
-    console.log(item);
     window.location.href = `/userProfile/${item._id}`;
   };
   return (
@@ -155,15 +148,6 @@ const BookingDetails = () => {
           <ArrowLeftOutlined />
         </Arrow>
         <Wrapper slideIndex={slideIndex}>
-          {/* {sliderItems.map(item => (         
-          <Slide bg='#25c481'>
-            <ImgContainer>         
-             <Image src={item.img} />
-            </ImgContainer>
-          
-          </Slide>
-        ))} */}
-
           <Slide bg="#25c481">
             <ImgContainer>
               <Image
@@ -220,7 +204,6 @@ const BookingDetails = () => {
             <tbody>
               {bookedusers.map((item) => (
                 <tr>
-                  {console.log(item)}
                   <td style={{ fontSize: "15px" }}>{item.firstname}</td>
                   <td style={{ fontSize: "15px" }}>{item.lastname}</td>
                   <td style={{ fontSize: "15px" }}>{item.email}</td>
@@ -240,19 +223,6 @@ const BookingDetails = () => {
               ))}
             </tbody>
           </table>
-
-          {/* {display && array.map((item) => {
-          <>
-           <tr>
-            <td>Zenith</td>
-            <td>Maharjan </td>
-            <td>zmchaos@gmail.com</td>
-            <td>Kathmandu</td>
-            <td><button>LINK</button></td>
-           </tr>
-           </>
-         }) }       
-          */}
         </div>
       </section>
     </Container>

@@ -8,7 +8,7 @@ const {
 const router = require("express").Router();
 
 //UPDATE
-router.put("/:id", async (req, res) => {
+router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
   if (req.body.password) {
     req.body.password = CryptoJS.AES.encrypt(
       req.body.password,
@@ -41,10 +41,9 @@ router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
 });
 
 //GET USER
-router.get("/find/:id", async (req, res) => {
+router.get("/find/:id", verifyTokenAndAdmin, async (req, res) => {
   try {
     const user = await userModel.findById(req.params.id);
-    console.log("its in");
     const { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (err) {
@@ -67,33 +66,34 @@ router.get("/", verifyTokenAndAdmin, async (req, res) => {
 });
 
 //UPDATE VERIFICATION
-router.get("/:id/verify/:token", async (req, res) => {
-  try {
-    console.log("its in ");
-    const user = await userModel.findOne({ _id: req.params.id });
-    if (!user) return res.status(400).send({ message: "Invalid Link" });
+router.get(
+  "/:id/verify/:token",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    try {
+      const user = await userModel.findOne({ _id: req.params.id });
+      if (!user) return res.status(400).send({ message: "Invalid Link" });
 
-    const token = await Token.findOne({
-      userId: user._id,
-      token: req.params.token,
-    });
-    if (!token) return res.status(400).send({ message: "Invalid Link" });
+      const token = await Token.findOne({
+        userId: user._id,
+        token: req.params.token,
+      });
+      if (!token) return res.status(400).send({ message: "Invalid Link" });
 
-    await userModel.findByIdAndUpdate(user._id, {
-      verified: true,
-    });
-    await token.remove();
+      await userModel.findByIdAndUpdate(user._id, {
+        verified: true,
+      });
+      await token.remove();
 
-    res.status(200).send({ message: "Email Verified Successfully!!!" });
-  } catch (err) {
-    res.status(500).send({ message: "Internal Server Error" });
+      res.status(200).send({ message: "Email Verified Successfully!!!" });
+    } catch (err) {
+      res.status(500).send({ message: "Internal Server Error" });
+    }
   }
-});
+);
 
 //UPDATE WISHLIST
-router.put("/wishlist/:id", async (req, res) => {
-  console.log("its in");
-  console.log(req.body.id);
+router.put("/wishlist/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const updatedUser = await userModel.findByIdAndUpdate(
       req.params.id,
@@ -109,9 +109,7 @@ router.put("/wishlist/:id", async (req, res) => {
 });
 
 //UPDATE BOOKING
-router.put("/booking/:id", async (req, res) => {
-  console.log("its in");
-  console.log(req.body.id);
+router.put("/booking/:id", verifyTokenAndAuthorization, async (req, res) => {
   try {
     const updatedUser = await userModel.findByIdAndUpdate(
       req.params.id,
@@ -127,20 +125,23 @@ router.put("/booking/:id", async (req, res) => {
 });
 
 //DELETE WISHLIST
-router.put("/deletewishlist/:id", async (req, res) => {
-  console.log(req.body.id);
-  try {
-    const updatedUser = await userModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        $pull: { wishlist: req.body.id },
-      },
-      { new: true }
-    );
-    res.status(200).json(updatedUser);
-  } catch (err) {
-    res.status(500).json(err);
+router.put(
+  "/deletewishlist/:id",
+  verifyTokenAndAuthorization,
+  async (req, res) => {
+    try {
+      const updatedUser = await userModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $pull: { wishlist: req.body.id },
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
+    } catch (err) {
+      res.status(500).json(err);
+    }
   }
-});
+);
 
 module.exports = router;

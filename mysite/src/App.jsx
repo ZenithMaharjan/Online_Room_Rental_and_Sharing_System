@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import "./App.css";
-import Header from "./Mycomponent/Header";
-import Subhead from "./Mycomponent/Subhead";
-import Footer from "./Mycomponent/Footer";
-import Login from "./Mycomponent/Login";
-import Register from "./Mycomponent/Register";
+import "./index.css";
+import Header from "./Component/Header";
+import Subhead from "./Component/Subhead";
+import Footer from "./Component/Footer";
+import Login from "./Component/Login";
+import Register from "./Component/Register";
 import Contact from "./Pages/Contact";
 import About from "./Pages/About";
 import Properties from "./Pages/Properties";
@@ -12,13 +12,12 @@ import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import Home from "./Pages/Home";
 import Room from "./Pages/Rooms/Room";
 import AddRoom from "./Pages/Rooms/AddRoom";
-import Flat from "./Pages/Flats/Flat";
-import Hostel from "./Pages/Hostels/Hostel";
-import Addpost from "./Mycomponent/Addpost";
-import Listform from "./Mycomponent/Listform";
-import RoomFolder from "./Pages/Rooms/RoomFolder";
-import Viewproperty from "./Mycomponent/Viewproperty";
-import DemoViewproperty from "./Mycomponent/DemoViewProperty";
+import Flat from "./Pages/Flat";
+import Hostel from "./Pages/Hostel";
+import Addpost from "./Component/Addpost";
+import Listform from "./Component/Listform";
+import Viewproperty from "./Component/Viewproperty";
+import DemoViewproperty from "./Component/DemoViewProperty";
 import Profilereg from "./Pages/Profilereg";
 import VerificationPage from "./Pages/VerificationPage";
 import MyProperty from "./Pages/MyProperty";
@@ -26,15 +25,14 @@ import Profile from "./Pages/Profile";
 import ViewProfile from "./Pages/ViewProfile";
 import BookingDetails from "./Pages/BookingDetails";
 import Postroommate from "./Pages/PostRoommateForm/Postroommate";
-import Propertyadd from "./PropertyForm/Propertyadd";
+import Propertyadd from "./Pages/PropertyForm/Propertyadd";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import axios from "axios";
-import VerifyLogin from "./Mycomponent/VerifyLogin";
+import VerifyLogin from "./Component/VerifyLogin";
 
 function App() {
   const user = useSelector((state) => state.user.currentUser);
-  console.log(user);
 
   const [userProfile, setuserProfile] = useState([]);
 
@@ -45,7 +43,6 @@ function App() {
           "http://localhost:5000/api/users/find/" + user._id
         );
         setuserProfile(res.data);
-        console.log(res.data);
       } catch (err) {
         err;
       }
@@ -60,7 +57,6 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Home />}></Route>
-
         <Route path="/Login" element={user ? <Navigate to="/" /> : <Login />} />
         <Route
           path="/Verify/Login"
@@ -81,7 +77,6 @@ function App() {
           path="/listform"
           element={user ? <Listform /> : <Navigate to="/Login" />}
         />
-        <Route path="/roomfolder" element={<RoomFolder></RoomFolder>}></Route>
         <Route
           path="/viewproperty"
           element={<Viewproperty></Viewproperty>}

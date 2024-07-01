@@ -2,224 +2,56 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControl from "@mui/material/FormControl";
-import Input from "@mui/material/Input";
 import { useState } from "react";
-import ErrorMessage from "../../Component/ErrorMessage";
+import ErrorMessage from "../Mycomponent/ErrorMessage";
 
-export default function Info(props) {
-  const [name, setname] = useState(props.info.name ? props.info.name : "");
-  const [age, setage] = useState(props.info.age ? props.info.age : "");
-  const [price, setprice] = useState(props.info.price ? props.info.price : "");
-  const [gender, setgender] = useState(
-    props.info.gender ? props.info.gender : ""
-  );
-  const [type, settype] = useState(props.info.type ? props.info.type : "");
-  const [email, setemail] = useState(props.info.email ? props.info.email : "");
-  const [phoneno, setphoneno] = useState(
-    props.info.phoneno ? props.info.phoneno : ""
-  );
-  const [country, setcountry] = useState("Nepal");
-  const [province, setprovince] = useState(
+export default function AddressForm(props) {
+  const [country, setCountry] = useState("Nepal");
+  const [province, setProvince] = useState(
     props.info.province ? props.info.province : ""
   );
-  const [district, setdistrict] = useState(
+  const [district, setDistrict] = useState(
     props.info.district ? props.info.district : ""
   );
-  const [municipalityorvdc, setmunicipalityorvdc] = useState(
+  const [municipalityorvdc, setMunicipalityorvdc] = useState(
     props.info.municipalityorvdc ? props.info.municipalityorvdc : ""
   );
-  const [wardno, setwardno] = useState(
+  const [wardno, setWardno] = useState(
     props.info.wardno ? props.info.wardno : ""
   );
-  const [tolstreet, settolstreet] = useState(
-    props.info.tolstreet ? props.info.tolstreet : ""
+  const [streetortole, setStreetortole] = useState(
+    props.info.streetortole ? props.info.streetortole : ""
   );
-  const [desc, setdesc] = useState(props.info.desc ? props.info.desc : "");
-  const [photo, setphoto] = useState([]);
+  const [latitude, setlatitude] = useState(
+    props.info.latitude ? props.info.latitude : ""
+  );
+  const [longitude, setlongitude] = useState(
+    props.info.longitude ? props.info.longitude : ""
+  );
 
-  const form = {
-    name: name,
-    age: age,
-    price: price,
-    gender: gender,
-    type: type,
-    email: email,
-    phoneno: phoneno,
+  const property = {
     country: country,
     province: province,
     district: district,
     municipalityorvdc: municipalityorvdc,
     wardno: wardno,
-    tolstreet: tolstreet,
-    desc: desc,
-    photo: photo,
+    streetortole: streetortole,
+    longitude: longitude,
+    latitude: latitude,
   };
-  props.property(form);
+  props.property(property);
+
   return (
     <React.Fragment>
+      {props.property(property)}
       <Typography variant="h6" gutterBottom>
-        Information
+        Address
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="Name"
-            name="Name"
-            label="Name"
-            defaultValue={props.info.name}
-            fullWidth
-            autoComplete="given-name"
-            variant="standard"
-            onChange={(event) => setname(event.target.value)}
-          />
-          {props.check && props.info.name?.length < 3 && (
-            <ErrorMessage message="***" />
-          )}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="age"
-            name="age"
-            type="number"
-            label="Age"
-            defaultValue={props.info.age}
-            fullWidth
-            variant="standard"
-            inputProps={{
-              inputMode: "numeric",
-              pattern: "[0-9]*",
-              min: "1",
-              max: "100",
-            }}
-            onChange={(event) => setage(event.target.value)}
-          />
-          {props.check && props.info.age < 18 && <ErrorMessage message="***" />}
-        </Grid>
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="Price"
-            name="Price"
-            label="Price"
-            defaultValue={props.info.price}
-            type="number"
-            fullWidth
-            onChange={(event) => setprice(event.target.value)}
-            variant="standard"
-            inputProps={{
-              inputMode: "numeric",
-              pattern: "[0-9]*",
-              min: "1",
-              max: "100",
-            }}
-          />
-          {props.check && props.info.price === "" && (
-            <ErrorMessage message="***" />
-          )}
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl>
-            <FormLabel id="demo-row-radio-buttons-group-label">
-              Gender
-            </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              onChange={(event) => setgender(event.target.value)}
-            >
-              <FormControlLabel
-                value="female"
-                control={<Radio />}
-                label="Female"
-              />
-              <FormControlLabel value="male" control={<Radio />} label="Male" />
-              <FormControlLabel
-                value="other"
-                control={<Radio />}
-                label="Other"
-              />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="type"
-            name="type"
-            label="Type"
-            fullWidth
-            defaultValue={props.info.type}
-            select
-            variant="standard"
-            onChange={(event) => settype(event.target.value)}
-          >
-            <MenuItem value="Roommates"> Roommates</MenuItem>
-            <MenuItem value="Flatmate ">Flatmates</MenuItem>
-          </TextField>
-        </Grid>
-
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="email"
-            name="email"
-            type="email"
-            defaultValue={props.info.email}
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-            label="  Email"
-            onChange={(event) => setemail(event.target.value)}
-            fullWidth
-            variant="standard"
-          />
-          {props.check && props.info.email === "" && (
-            <ErrorMessage message="***" />
-          )}
-        </Grid>
-
-        <Grid item xs={12} sm={4}>
-          <TextField
-            required
-            id="phone no"
-            name="phone no"
-            defaultValue={props.info.phoneno}
-            type="tel"
-            label=" Contact No"
-            fullWidth
-            variant="standard"
-            onChange={(event) => setphoneno(event.target.value)}
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          />
-          {props.check && props.info.phoneno === "" && (
-            <ErrorMessage message="***" />
-          )}
-        </Grid>
-
-        <Grid item xs={12} sm={4}>
-          <TextField
-            id="r1phone no"
-            name="r1phone no"
-            type="tel"
-            label="Additional Contact No"
-            fullWidth
-            variant="standard"
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             id="country"
             name="country"
-            onChange={(event) => setcountry(event.target.value)}
             label="country"
             fullWidth
             defaultValue="Nepal"
@@ -227,21 +59,22 @@ export default function Info(props) {
               readOnly: true,
             }}
             variant="standard"
+            onChange={(event) => setCountry(event.target.value)}
           />
         </Grid>
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="Province"
             name="Province"
-            defaultValue={props.info.province}
             label="Your Province"
             fullWidth
+            defaultValue={props.info.province}
             select
             variant="standard"
-            onChange={(event) => setprovince(event.target.value)}
+            onChange={(event) => setProvince(event.target.value)}
           >
-            <MenuItem value="koshi">koshi</MenuItem>
+            <MenuItem value="Province 1"> Province 1</MenuItem>
             <MenuItem value="Madesh ">Madesh</MenuItem>
             <MenuItem value="Bagmati">Bagmati </MenuItem>
             <MenuItem value="Gandaki">Gandaki </MenuItem>
@@ -251,20 +84,19 @@ export default function Info(props) {
           </TextField>
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
-            required
             id="District"
             name="District"
             label="District"
             defaultValue={props.info.district}
             fullWidth
             select
-            onChange={(event) => setdistrict(event.target.value)}
             variant="standard"
+            onChange={(event) => setDistrict(event.target.value)}
           >
             <MenuItem unselectable>
-              <b>Koshi</b>
+              <b>province1</b>
             </MenuItem>
             <MenuItem value="Bhojpur">Bhojpur</MenuItem>
             <MenuItem value="Dhankuta">Dhankuta</MenuItem>
@@ -371,23 +203,23 @@ export default function Info(props) {
           </TextField>
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="vdc/municipality"
             name="vdc/munici"
-            label="Municipality/VDC"
             defaultValue={props.info.municipalityorvdc}
+            label="Municipality/VDC"
             fullWidth
-            onChange={(event) => setmunicipalityorvdc(event.target.value)}
             variant="standard"
+            onChange={(event) => setMunicipalityorvdc(event.target.value)}
           />
           {props.check && props.info.municipalityorvdc === "" && (
             <ErrorMessage message="***" />
           )}
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="ward"
@@ -396,60 +228,59 @@ export default function Info(props) {
             label="Ward No"
             defaultValue={props.info.wardno}
             fullWidth
-            onChange={(event) => setwardno(event.target.value)}
             variant="standard"
             inputProps={{ pattern: "[0-9]*", min: "0", max: "32" }}
+            onChange={(event) => setWardno(event.target.value)}
           />
           {props.check && props.info.wardno === "" && (
             <ErrorMessage message="***" />
           )}
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={6}>
           <TextField
             required
             id="Tol"
             name="tol"
-            defaultValue={props.info.tolstreet}
-            onChange={(event) => settolstreet(event.target.value)}
+            defaultValue={props.info.streetortole}
             label="Tol/Street"
             fullWidth
             variant="standard"
+            onChange={(event) => setStreetortole(event.target.value)}
           />
-          {props.check && props.info.tolstreet === "" && (
+          {props.check && props.info.streetortole === "" && (
             <ErrorMessage message="***" />
           )}
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={6}>
           <TextField
-            onChange={(event) => setdesc(event.target.value)}
-            id="discription"
-            defaultValue={props.info.desc}
-            name="Discription"
-            multiline
-            rows={8}
-            label="Description"
+            required
+            id="latitude"
+            name="Latitude"
+            defaultValue={props.info.latitude}
+            label="Latitude"
             fullWidth
+            variant="standard"
+            onChange={(event) => setlatitude(event.target.value)}
           />
-          {props.check && props.info.desc === "" && (
+          {props.check && props.info.latitude === "" && (
             <ErrorMessage message="***" />
           )}
         </Grid>
-
-        <Grid item xs={12}>
-          <h5> Profile Image </h5>
-        </Grid>
-
-        <Grid item xs={12}>
-          <form>
-            <Input
-              type="file"
-              variant="outlined"
-              onChange={(event) => setphoto(event.target.files)}
-              inputProps={{ accept: "image/*" }}
-              multiple
-            />
-          </form>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="longitude"
+            name="Longitude"
+            defaultValue={props.info.longitude}
+            label="Longitude"
+            fullWidth
+            variant="standard"
+            onChange={(event) => setlongitude(event.target.value)}
+          />
+          {props.check && props.info.longitude === "" && (
+            <ErrorMessage message="***" />
+          )}
         </Grid>
       </Grid>
     </React.Fragment>

@@ -3,17 +3,12 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Radio from "@mui/material/Radio";
-import Box from "@mui/material/Box";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import { useState } from "react";
-import ErrorMessage from "../../Mycomponent/ErrorMessage";
+import ErrorMessage from "../../Component/ErrorMessage";
 
 export default function Preference(props) {
   const [minage, setminage] = useState(
